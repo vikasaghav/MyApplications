@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-lazy="false">
+	
+	
+	<class name="com.zensar.banking.beans.Customer">
+	<id name="customerId" >
+	<generator class="increment"></generator>
+	</id>
+	<property name="customerName"></property>
+	<property name="customerEmailId"></property>
+	<property name="dateOfBirth"></property>
+	<component name="localAddress" class="com.zensar.banking.beans.Address">
+	<property name="pincode"></property>
+	<property name="city"></property>
+	<property name="state"></property>
+	</component>
+	<component name="homeAddress" class="com.zensar.banking.beans.Address">
+	<property name="pincode" column="hp"></property>
+	<property name="city" column="hc"></property>
+	<property name="state" column="hs"></property>
+	</component>
+	
+	 <map name="accounts" cascade="all">
+         <key column="customerId"/>
+         <index column="accountNo" type="int"/>
+         <one-to-many class="com.zensar.banking.beans.Account"/>
+      </map>  
+	</class>
+	
+<class name="com.zensar.banking.beans.Account">
+<id name="accountNo" type="int" >
+ <generator class="increment"/>
+</id>
+
+<property name="pinNumber"></property>
+<property name="accountType"></property>
+<property name="accountBalance"></property>
+
+<map name="transaction" cascade="all">
+         <key column="accountNo"/>
+         <index column="transactionId" type="int"/>
+         <one-to-many class="com.zensar.banking.beans.Transaction"/>
+</map>  
+
+</class>	
+
+
+    <class name="com.zensar.banking.beans.Transaction">
+      <id name="transactionId">
+         <generator class="increment"/>
+      </id>
+      <property name="amount" column="amount"/>
+       <property name="transactionType" />
+   </class>           
+   
+
+
+
+
+
+	
+</hibernate-mapping>
+	
+	
+	
